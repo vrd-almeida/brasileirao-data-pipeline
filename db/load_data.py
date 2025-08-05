@@ -43,7 +43,7 @@ def validate_dataframe(df: pd.DataFrame) -> None:
 def get_data_from_database(engine) -> pd.DataFrame:
 
     # Example: load entire table into a DataFrame
-    df = pd.read_sql("SELECT * FROM matches", con=engine)
+    df = pd.read_sql("SELECT * FROM matches", con=engine, index_col="id")
 
     validate_dataframe(df)
 
@@ -85,6 +85,8 @@ def get_data_from_csv() -> pd.DataFrame:
     df_csv_dropped = df_csv.drop(
         ["Country", "League", "Time", "BFECH", "BFECD", "BFECA"], axis=1
     )
+
+    df_csv_dropped.index.name = "id"
 
     validate_dataframe(df_csv_dropped)
 
