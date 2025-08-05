@@ -56,11 +56,11 @@ You can set these in a `.env` file (recommended) or directly in the terminal.
 ## 🧪 Example `.env` File
 
 ```env
-USER=postgres
-PASSWORD=1234
-HOST=localhost
-PORT=5432
-DB_NAME=brasileirao
+USER=my_user
+PASSWORD=my_password
+HOST=my_host
+PORT=my_port
+DB_NAME=my_db_name
 ```
 
 
