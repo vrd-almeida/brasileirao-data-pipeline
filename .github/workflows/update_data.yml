@@ -1,8 +1,8 @@
-name: Update Supabase every 3 days
+name: Update Supabase every 2 days
 
 on:
   schedule:
-    - cron: '0 0 */3 * *'   # every 3 days at midnight UTC
+    - cron: '0 0 */2 * *'   # every 2 days at midnight UTC
   workflow_dispatch:
 
 jobs:
@@ -29,5 +29,5 @@ jobs:
           PORT: ${{ secrets.PORT }}
           DB_NAME: ${{ secrets.DB_NAME }}
         run: |
-          python main.py
+          python db/main.py
 
