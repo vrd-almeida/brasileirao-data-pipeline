@@ -29,3 +29,7 @@ def execute_query() -> None:
         print("✅ Database was already up to date; no data injected.")
 
     return
+
+
+if __name__ == "__main__":
+    execute_query()
