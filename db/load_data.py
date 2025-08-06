@@ -40,12 +40,33 @@ def validate_dataframe(df: pd.DataFrame) -> None:
     return
 
 
-def get_data_from_database(engine) -> pd.DataFrame:
+def get_data_from_database(supabase) -> pd.DataFrame:
+    """Loads all data from Supabase 'matches' table with pagination."""
 
-    # Example: load entire table into a DataFrame
-    df = pd.read_sql("SELECT * FROM matches", con=engine, index_col="id")
+    all_data = []
+    step = 1000
+    offset = 0
 
+    while True:
+        response = (
+            supabase.table("matches")
+            .select("*")
+            .range(offset, offset + step - 1)
+            .execute()
+        )
+
+        chunk = response.data
+        all_data.extend(chunk)
+
+        if len(chunk) < step:
+            break
+
+        offset += step
+
+    df = pd.DataFrame(all_data)
+    df.set_index("id", inplace=True)
     validate_dataframe(df)
+    df.sort_index(inplace=True)
 
     return df
 

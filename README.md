@@ -7,8 +7,8 @@ This project connects to a PostgreSQL database, scrapes match data from a websit
 
 ## 📌 What This Project Does
 
-✅ Connects to a local or remote PostgreSQL database  
-✅ Fetches match results from a website using `requests` and `pandas.read_html`  
+✅ Connects to a remote PostgreSQL database (Supabase)
+✅ Fetches match results from a website
 ✅ Compares new data with existing database entries  
 ✅ Injects only the missing rows into the table (no duplicates)  
 
@@ -17,23 +17,21 @@ This project connects to a PostgreSQL database, scrapes match data from a websit
 ## 🧠 Project Structure and Flow
 
 1. **Load Environment Variables**  
-   Use `os.getenv()` to load database credentials (`USER`, `PASSWORD`, `HOST`, `PORT`, `DB_NAME`).  
+   Use `os.getenv()` to load database credentials (`SUPABASE_URL`, `SUPABASE_KEY`).  
    If any are missing, the script raises an error immediately.
 
-2. **Create SQLAlchemy Engine**  
-   Connects to the PostgreSQL database using the credentials.
+2. **Create connection**  
+   Connects to the Supabase using `supabase.client`.
 
 3. **Load Existing Data from Database**  
    Uses `pd.read_sql_table()` to load current match data into a DataFrame.
 
 4. **Scrape New Data from Website**  
-   Uses `requests` + `pandas.read_html()` to extract match results from a public web page.
 
 5. **Compare and Find New Rows**  
    Drops irrelevant columns (if needed), and uses `set(df.index)` to find rows in the scraped data not already in the database.
 
 6. **Insert Only Missing Rows**  
-   Uses `DataFrame.to_sql(..., if_exists="append")` to inject only the new rows into the existing table.
 
 ---
 
@@ -41,13 +39,11 @@ This project connects to a PostgreSQL database, scrapes match data from a websit
 
 The script relies on the following environment variables:
 
-| Variable     | Purpose                   |
-|--------------|---------------------------|
-| `USER`       | Database username         |
-| `PASSWORD`   | Database password         |
-| `HOST`       | Host                      |
-| `PORT`       | Port                      |
-| `DB_NAME`    | Name of the PostgreSQL DB |
+| Variable       | Purpose      |
+|----------------|--------------|
+| `SUPABASE_URL` | Database url |
+| `SUPABASE_KEY` | Database key |
+
 
 You can set these in a `.env` file (recommended) or directly in the terminal.
 
@@ -56,11 +52,8 @@ You can set these in a `.env` file (recommended) or directly in the terminal.
 ## 🧪 Example `.env` File
 
 ```env
-USER=my_user
-PASSWORD=my_password
-HOST=my_host
-PORT=my_port
-DB_NAME=my_db_name
+SUPABASE_URL=my_urm
+SUPABASE_key=my_key
 ```
 
 
