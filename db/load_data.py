@@ -103,12 +103,29 @@ def get_data_from_csv() -> pd.DataFrame:
             "BFECA": "float64",
         },
     )
-    df_csv_dropped = df_csv.drop(
-        ["Country", "League", "Time", "BFECH", "BFECD", "BFECA"], axis=1
-    )
 
-    df_csv_dropped.index.name = "id"
+    columns = [
+        "Season",
+        "Home",
+        "Away",
+        "HG",
+        "AG",
+        "Res",
+        "PSCH",
+        "PSCD",
+        "PSCA",
+        "MaxCH",
+        "MaxCD",
+        "MaxCA",
+        "AvgCH",
+        "AvgCD",
+        "AvgCA",
+    ]
 
-    validate_dataframe(df_csv_dropped)
+    df_csv = df_csv[columns]
 
-    return df_csv_dropped
+    df_csv.index.name = "id"
+
+    validate_dataframe(df_csv)
+
+    return df_csv
