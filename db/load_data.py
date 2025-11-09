@@ -89,9 +89,9 @@ def get_data_from_csv() -> pd.DataFrame:
             "HG": "Int64",
             "AG": "Int64",
             "Res": "string",
-            "PSCH": "float64",
-            "PSCD": "float64",
-            "PSCA": "float64",
+            "PSCH": "object",
+            "PSCD": "object",
+            "PSCA": "object",
             "MaxCH": "float64",
             "MaxCD": "float64",
             "MaxCA": "float64",
@@ -128,5 +128,8 @@ def get_data_from_csv() -> pd.DataFrame:
     df_csv.index.name = "id"
 
     validate_dataframe(df_csv)
+
+    # NaN -> None (null in JSON)
+    df_csv = df_csv.where(pd.notna(df_csv), None)
 
     return df_csv
