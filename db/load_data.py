@@ -105,6 +105,7 @@ def get_data_from_csv() -> pd.DataFrame:
     )
 
     columns = [
+        "Date",
         "Season",
         "Home",
         "Away",
