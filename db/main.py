@@ -1,3 +1,4 @@
+import pandas as pd
 import os
 from db_config import supabase
 
@@ -30,8 +31,21 @@ def execute_query() -> None:
 
         records = df_to_inject.reset_index().to_dict(orient="records")
 
+        n = len(df_to_inject)
+        print(f"There are {n} row(s) to be injected...")
+        i = 0
+        time_initial = pd.Timestamp.now()
         for record in records:
             supabase.table("matches").insert(record).execute()
+            i = i + 1
+            if i % 10 == 0:
+                time_remaining = (pd.Timestamp.now() - time_initial) * (n - i) / i
+                total_seconds = int(time_remaining.total_seconds())
+                minutes, seconds = divmod(total_seconds, 60)
+                print(
+                    f"{round(100*i/n, 2)}% completed... time remaining: {minutes}min{seconds:02d}s"
+                )
+        print(f"100% completed.")
         print(
             f"✅ Data has been injected to database: {len(df_to_inject)} row(s) injected."
         )

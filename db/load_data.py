@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 expected_columns = {
     "Season",
     "Date",
@@ -63,10 +62,16 @@ def get_data_from_database(supabase) -> pd.DataFrame:
 
         offset += step
 
-    df = pd.DataFrame(all_data)
-    df.set_index("id", inplace=True)
+    if len(all_data) == 0:
+        df = pd.DataFrame(
+            columns=list(expected_columns), index=pd.Index([], name="id", dtype=str)
+        )
+    else:
+        df = pd.DataFrame(all_data)
+        df.set_index("id", inplace=True)
+        df.sort_index(inplace=True)
+
     validate_dataframe(df)
-    df.sort_index(inplace=True)
 
     return df
 
