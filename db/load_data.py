@@ -125,7 +125,9 @@ def get_data_from_csv() -> pd.DataFrame:
 
     df_csv = df_csv[columns]
 
-    df_csv.index.name = "id"
+    df_csv["id"] = df_csv["Date"].astype(str) + df_csv["Home"] + df_csv["Away"]
+
+    df_csv.set_index("id", inplace=True)
 
     validate_dataframe(df_csv)
 
